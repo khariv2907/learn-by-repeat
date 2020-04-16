@@ -1,0 +1,54 @@
+version: '3'
+
+# Services
+services:
+  # Nginx
+  nginx:
+    container_name: ${COMPOSE_PROJECT_NAME}.nginx
+    image: nginx:latest
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./../:/var/www
+      - ./nginx/logs:/var/log/nginx
+    links:
+      - php
+
+  # PHP
+  php:
+    container_name: ${COMPOSE_PROJECT_NAME}.php
+    build: php
+    volumes:
+      - ./../:/var/www
+    links:
+      - redis
+      - postgres
+
+  # PostgreSQL
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME}.postgres
+    image: postgres:12.1
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./postgres/conf:/etc/postgresql/
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  # Redis
+  redis:
+    container_name: ${COMPOSE_PROJECT_NAME}.redis
+    image: redis:5.0.8
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - ./redis/data:/var/lib/redis
+
+
+# Volumes
+volumes:
+  postgres:
