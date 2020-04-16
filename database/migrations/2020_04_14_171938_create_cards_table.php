@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ class CreateCardsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->unsignedBigInteger('deck_id');
-            $table->unsignedSmallInteger('status');
+            $table->unsignedSmallInteger('status')->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
 
             $table->foreign('deck_id')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ class CreateDecksTable extends Migration
         Schema::create('decks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedSmallInteger('status');
+            $table->unsignedSmallInteger('status')->default(BaseModel::STATUS_ACTIVE);
         });
     }
 

@@ -14,6 +14,12 @@ Route::get('/decks', [
 ]);
 
 Route::get('/decks/create-form', [
-    'uses' => 'DeckController@create',
+    'uses' => 'DeckController@createForm',
     'as' => 'decks::createForm'
+]);
+
+Route::post('/decks/create-form', [
+    'before' => 'csrf',
+    'uses' => 'DeckController@create',
+    'as' => 'decks::create'
 ]);

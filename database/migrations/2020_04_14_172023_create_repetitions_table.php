@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ class CreateRepetitionsTable extends Migration
             $table->unsignedBigInteger('card_id');
             $table->unsignedSmallInteger('iteration');
             $table->date('repeat_at');
-            $table->unsignedSmallInteger('status');
+            $table->unsignedSmallInteger('status')->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
 
             $table->foreign('card_id')

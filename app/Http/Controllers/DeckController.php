@@ -29,8 +29,8 @@ class DeckController extends Controller
         return view('deck.create-form');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('deck.alternative-create-form');
+       dd($request->all());
     }
 }
