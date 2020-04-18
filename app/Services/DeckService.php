@@ -4,48 +4,46 @@
 namespace App\Services;
 
 
+use App\Models\BaseModel;
 use App\Models\Deck;
 use App\Models\Repetition;
+use DateTime;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class DeckService
 {
 
-    public function getTodayRepetition()
+    public function getActiveDecks() : ?Collection
     {
-        $date = now();
-
-        return $this->getRepetitionByDate($date);
+        return Deck::with(['cards' => function($query) {
+            $query->orderByDesc('status')
+                ->orderBy('created_at')
+                ->with('nearestRepetition');
+        }])
+            ->orderByDesc('status')
+            ->orderBy('updated_at')
+            ->get();
     }
 
-    public function getYesterdayRepetition()
+    /**
+     * Get repetitions by date
+     */
+    public function getRepetitionByDate(DateTime $date) : ?Collection
     {
-        $date = date_create('yesterday');
-
-        return $this->getRepetitionByDate($date);
-    }
-
-    public function getTomorrowRepetition()
-    {
-        $date = date_create('tomorrow');
-
-        return $this->getRepetitionByDate($date);
-    }
-
-    protected function getRepetitionByDate($date)
-    {
-        return Deck::active()->whereHas('cards', function (Builder $cardQuery) use ($date) {
-            $cardQuery->active()->whereHas('repetitions', function (Builder $repetitionQuery) use ($date) {
-                $repetitionQuery->active()->whereDate('repeat_at', $date);
-            });
-        })->with(['cards' => function($cardQuery) use ($date) {
+        $whereFunc = function ($cardQuery) use ($date) {
             $cardQuery->active()->whereHas('repetitions', function ($repetitionQuery) use ($date) {
                 $repetitionQuery->active()->whereDate('repeat_at', $date);
-            })->with('repetitions');
-        }])->get();
+            });
+        };
+
+        return Deck::active()->whereHas('cards', $whereFunc)->with(['cards' => $whereFunc])->get();
     }
 
+    /**
+     * Create decks with cards
+     */
     public function createWithCards(array $data) : void
     {
         DB::transaction(function () use ($data) {
@@ -57,13 +55,28 @@ class DeckService
             foreach ($cards as $index => $card) {
                 $repetitionsData[] = [
                     'card_id' => $card->id,
-                    'iteration' => 1,
+                    'iteration' => 0,
                     'repeat_at' => now()->addDays($index+1),
+                    'created_at' => now()
                 ];
             }
 
             $repetitions = Repetition::insert($repetitionsData);
         }, 5);
+    }
+
+    /**
+     * Disable Deck
+     */
+    public function changeStatus(int $id)
+    {
+        $deck = Deck::findOrFail($id);
+
+        $deck->status = $deck->status
+            ? BaseModel::STATUS_INACTIVE
+            : BaseModel::STATUS_ACTIVE;
+
+        $deck->save();
     }
 
 }

@@ -18,16 +18,16 @@ class DeckController extends Controller
 
     public function dashboard()
     {
-        $today = $this->deckService->getTodayRepetition();
-        $yesterday = $this->deckService->getYesterdayRepetition();
-        $tomorrow = $this->deckService->getTomorrowRepetition();
+        $today = $this->deckService->getRepetitionByDate(date_create('now'));
+        $yesterday = $this->deckService->getRepetitionByDate(date_create('yesterday'));
+        $tomorrow = $this->deckService->getRepetitionByDate(date_create('tomorrow'));
 
         return view('deck.dashboard', compact('today', 'yesterday', 'tomorrow'));
     }
 
     public function decks()
     {
-        $decks = Deck::with('cards.nearestRepetition')->get();
+        $decks = $this->deckService->getActiveDecks();
 
         return view('deck.decks', compact('decks'));
     }
@@ -43,7 +43,17 @@ class DeckController extends Controller
             $this->deckService->createWithCards($request->validated());
 
             return redirect()->route('decks')->withSuccess('Deck has added!');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage());
+        }
+    }
 
+    public function changeStatus(int $id)
+    {
+        try {
+            $this->deckService->changeStatus($id);
+
+            return redirect()->route('decks')->withSuccess('Deck has updated!');
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage());
         }

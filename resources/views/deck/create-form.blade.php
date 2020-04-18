@@ -27,9 +27,6 @@
                             <div class="mb-2">
                                 {!! Form::text('cards[0][title]', null, ['class' => 'form-control js-card-title-input', 'placeholder' => 'Card Title #1']) !!}
                             </div>
-                            <div class="mb-2">
-                                {!! Form::text('cards[][title]', null, ['class' => 'form-control js-card-title-input', 'placeholder' => 'Card Title #2']) !!}
-                            </div>
                         </div>
                     </div>
                     <div class="form-group row">

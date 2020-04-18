@@ -12,8 +12,16 @@
                     <div class="card mb-4 box-shadow">
                         <div class="card-header">
                             <p class="card-title">
-                                <span class="h4">{{ $deck->title }}</span>
-                                <a href="" class="float-right" style="line-height: 200%;">Disable</a>
+                                <span class="h4">
+                                    @if($deck->status)
+                                        {{ $deck->title }}
+                                    @else
+                                        <del>{{ $deck->title }}</del>
+                                    @endif
+                                </span>
+                                <a href="{{ route('decks::changeStatus', $deck->id) }}" class="float-right" style="line-height: 200%;">
+                                    {{ ($deck->status ? 'Disable' : 'Activate') }}
+                                </a>
                             </p>
                         </div>
                         <div class="card-body">
@@ -35,7 +43,13 @@
                                         <!-- iteration -->
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <!-- title -->
-                                        <td>{{ $card->title }}</td>
+                                        <td>
+                                            @if($card->status)
+                                                {{ $card->title }}
+                                            @else
+                                                <del>{{ $card->title }}</del>
+                                            @endif
+                                        </td>
                                         <!-- step -->
                                         <td class="text-center">{{ $card->nearestRepetition->iteration }}</td>
                                         <!-- repeat at -->
@@ -45,7 +59,7 @@
                                             @if($card->status)
                                                 <span class="badge badge-success">Active</span>
                                             @else
-                                                <span class="badge badge-danger">Inactive</span>
+                                                <span class="badge badge-danger">Disabled</span>
                                             @endif
                                         </td>
                                         <!-- actions -->
@@ -55,10 +69,11 @@
                                                     More
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    <a class="dropdown-item" href="#">View History</a>
+                                                    <a href="#" class="dropdown-item js-view-history" data-id="{{ $card->id }}">View History</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Rename</a>
-                                                    <a class="dropdown-item" href="#">Disable</a>
+                                                    <a class="dropdown-item" href="{{ route('cards::changeStatus', $card->id) }}">
+                                                        {{ ($card->status ? 'Disable' : 'Activate') }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </td>
@@ -68,15 +83,19 @@
                                 @endforelse
                                 </tbody>
                             </table>
-
                         </div>
+                        @if(!$deck->status)
+                            <div class="card-footer">
+                                <small class="text-muted">Disabled</small>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             @empty
                 <p>* no decks</p>
             @endforelse
         @endisset
-
     </div>
 @endsection
 

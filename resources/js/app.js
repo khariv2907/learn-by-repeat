@@ -7,4 +7,24 @@ $(function() {
 
         formCardGroup.append(input);
     });
+
+    $('body').on('click', '.js-view-history', function (event) {
+        event.preventDefault();
+        var cardId = $(this).data('id');
+
+        $.ajax({
+            url: '/cards/ajax-view-history',
+            data: {
+                id:cardId
+            },
+            dataType: 'html',
+            success: function (response) {
+                $('.js-modal-block').html(response);
+                $('#cardHistoryModal').modal();
+            },
+            error: function () {
+                alert('Server Error');
+            },
+        });
+    })
 });

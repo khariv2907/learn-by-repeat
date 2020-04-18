@@ -31,13 +31,13 @@
             </button>
             <div class="collapse navbar-collapse w-100 flex-md-column" id="navbarCollapse">
                 <ul class="navbar-nav ml-auto small mb-2 mb-md-0">
-                    <li class="nav-item active">
+                    <li class="nav-item {{ Route::is('home') ? 'active':'' }}">
                         <a class="nav-link py-1" href="{{ route('home') }}">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('decks') ? 'active':'' }}">
                         <a class="nav-link py-1" href="{{ route('decks') }}">Decks</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('decks::createForm') ? 'active':'' }}">
                         <a class="nav-link py-1" href="{{ route('decks::createForm') }}">Create Deck</a>
                     </li>
                 </ul>
@@ -69,6 +69,7 @@
             @yield('content')
         </div>
     </div>
+    <div class="js-modal-block"></div>
 </main>
 
 <footer class="text-muted">
@@ -76,7 +77,7 @@
 </footer>
 
 <!-- Base JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>

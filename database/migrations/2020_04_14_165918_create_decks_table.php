@@ -18,6 +18,7 @@ class CreateDecksTable extends Migration
             $table->id();
             $table->string('title');
             $table->unsignedSmallInteger('status')->default(BaseModel::STATUS_ACTIVE);
+            $table->timestamps();
         });
     }
 

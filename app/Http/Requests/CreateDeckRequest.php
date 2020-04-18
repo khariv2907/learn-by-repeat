@@ -25,8 +25,7 @@ class CreateDeckRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'cards.0.title' => 'required',
-            'cards.*.title' => 'string',
+            'cards.*.title' => 'required',
         ];
     }
 }

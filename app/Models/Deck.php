@@ -19,8 +19,6 @@ class Deck extends BaseModel
 {
     protected $table = 'decks';
 
-    public $timestamps = false;
-
     protected $fillable = [
         'title', 'status'
     ];
