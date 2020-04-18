@@ -17,7 +17,7 @@ mix.styles([
     'resources/css/_compiled/app.css'
 ], 'public/css/app.css');
 
-
+mix.copy('vendor/proengsoft/laravel-jsvalidation/public/js/jsvalidation.min.js', 'public/vendor/jsvalidation/js/');
 
 if (mix.inProduction()) {
     mix.version();

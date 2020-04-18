@@ -28,12 +28,21 @@ class Repetition extends BaseModel
         'card_id', 'iteration', 'repeat_at', 'status'
     ];
 
+    protected $dates = [
+        'repeat_at', 'created_at', 'updated_at'
+    ];
+
     protected $casts = [
         'card_id' => 'int',
         'iteration' => 'int',
         'repeat_at' => 'date',
         'status' => 'int',
     ];
+
+    public function getRepeatAtAttribute($value)
+    {
+        return  date_create($value)->format('d-m-Y');
+    }
 
     public function card()
     {

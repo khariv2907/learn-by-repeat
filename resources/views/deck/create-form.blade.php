@@ -10,25 +10,34 @@
                 </div>
                 <div class="card-body">
                     <!-- form -->
-                    {!! Form::open(['route' => 'decks::create']) !!}
-
+                    {!! Form::open(['route' => 'decks::store']) !!}
                     <div class="form-group row">
                         {!! Form::label('title', 'Title', ['class' => 'col-sm-2 col-form-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Deck title']) !!}
+                            {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Deck Title']) !!}
                         </div>
                     </div>
 
                     <hr>
+
                     <div class="form-group row">
-                        {!! Form::label('title', 'Title', ['class' => 'col-sm-2 col-form-label']) !!}
-                        <div class="col-sm-10">
-                            {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Card title']) !!}
-                            <button type="submit" class="btn btn-primary">Add</button>
+                        {!! Form::label('title', 'Cards:', ['class' => 'col-sm-2 col-form-label']) !!}
+
+                        <div class="col-sm-10 js-form-cards-group">
+                            <div class="mb-2">
+                                {!! Form::text('cards[0][title]', null, ['class' => 'form-control js-card-title-input', 'placeholder' => 'Card Title #1']) !!}
+                            </div>
+                            <div class="mb-2">
+                                {!! Form::text('cards[][title]', null, ['class' => 'form-control js-card-title-input', 'placeholder' => 'Card Title #2']) !!}
+                            </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-outline-secondary">Submit</button>
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                            {!! Form::button('Add card', ['class' => 'btn btn-light js-add-one-more-card',]) !!}
+                        </div>
+                    </div>
+                    {!! Form::submit('Save', ['class' => 'btn btn-outline-secondary']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -47,4 +56,8 @@
         </div>
 
 </div>
+@endsection
+
+@section('scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\CreateDeckRequest') !!}
 @endsection

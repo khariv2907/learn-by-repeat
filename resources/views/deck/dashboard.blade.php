@@ -10,7 +10,7 @@
                     <p class="card-title h4">Today <small>({{ today()->format('d.m') }})</small></p>
                 </div>
                 <div class="card-body">
-                    @include('deck._partials.decks-table.today-table')
+                    @include('deck._partials.decks-table', ['decks' => $today, 'type' => 'today'])
                     <a class="btn btn-outline-success" href="">Close Day</a>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <p class="card-title h4">Tomorrow <small>({{ today()->addDay()->format('d.m') }})</small></p>
                 </div>
                 <div class="card-body">
-                    @include('deck._partials.decks-table.tomorrow-table')
+                    @include('deck._partials.decks-table', ['decks' => $tomorrow, 'type' => 'tomorrow'])
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <p class="card-title h4">Yesterday <small>({{ today()->subDay()->format('d.m') }})</small></p>
                 </div>
                 <div class="card-body">
-                    @include('deck._partials.decks-table.yesterday-table')
+                    @include('deck._partials.decks-table', ['decks' => $yesterday, 'type' => 'yesterday'])
                 </div>
             </div>
         </div>

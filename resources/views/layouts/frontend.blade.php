@@ -32,10 +32,10 @@
             <div class="collapse navbar-collapse w-100 flex-md-column" id="navbarCollapse">
                 <ul class="navbar-nav ml-auto small mb-2 mb-md-0">
                     <li class="nav-item active">
-                        <a class="nav-link py-1" href="#">Dashboard</a>
+                        <a class="nav-link py-1" href="{{ route('home') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-1" href="#">Decks</a>
+                        <a class="nav-link py-1" href="{{ route('decks') }}">Decks</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link py-1" href="{{ route('decks::createForm') }}">Create Deck</a>
@@ -48,7 +48,24 @@
 
 <main role="main">
     <div class="py-5 bg-light">
-        <div class="container">
+        <div class="@yield('container', 'container')">
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             @yield('content')
         </div>
     </div>
@@ -62,7 +79,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 <!-- Page JSes -->
 @yield('scripts')

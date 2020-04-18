@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon $updated_at
  * @property Deck $deck
  * @property Collection<Repetition> $repetitions
+ * @property Repetition nearestRepetition
  *
  * @package App
  */
@@ -42,5 +43,12 @@ class Card extends BaseModel
     public function repetitions()
     {
         return $this->hasMany(Repetition::class);
+    }
+
+    public function nearestRepetition()
+    {
+        return $this->hasOne(Repetition::class)
+            ->where('status', static::STATUS_ACTIVE)
+            ->orderBy('repeat_at');
     }
 }

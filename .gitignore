@@ -16,3 +16,5 @@ package-lock.json
 /public/mix-manifest.json
 /public/robots.txt
 _ide_helper.php
+/public/vendor
+.phpstorm.meta.php

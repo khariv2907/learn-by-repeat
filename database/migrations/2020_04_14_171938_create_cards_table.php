@@ -17,7 +17,6 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content');
             $table->unsignedBigInteger('deck_id');
             $table->unsignedSmallInteger('status')->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
