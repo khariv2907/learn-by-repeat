@@ -15,40 +15,35 @@
         </tr>
 
         @foreach($deck->cards as $card)
-            <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $card->title }}</td>
-                <td class="text-center">{{ $card->repeat_at }}</td>
-                <td class="text-center">
-                    @if($type === 'today')
-                        <a href="{{ route('cards::doneRepetition', $card->id) }}" class="btn btn-outline-success btn-sm">Done</a>
-                    @endif
+            @foreach($card->repetitions as $repetition)
+                <tr>
+                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td>{{ $card->title }}</td>
+                    <td class="text-center">{{ $repetition->repeat_at }}</td>
+                    <td class="text-center">
+                        @if($type === 'today')
+                            <a href="{{ route('repetitions::doneRepetition', $repetition->id) }}" class="btn btn-outline-success btn-sm">Done</a>
+                        @endif
 
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            More
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item js-view-history" href="#" data-id="{{ $card->id }}">View History</a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="{{ route('cards::postponeRepetition', [$card->id, 1]) }}">Repeat Tomorrow</a>
-                            <a class="dropdown-item" href="{{ route('cards::postponeRepetition', [$card->id, 3]) }}">Repeat After 3 Days</a>
-                            <a class="dropdown-item" href="{{ route('cards::postponeRepetition', [$card->id, 7]) }}">Repeat In a Week</a>
-                            <a class="dropdown-item" href="{{ route('cards::postponeRepetition', [$card->id, 14]) }}">Repeat After 2 Week</a>
-                            <a class="dropdown-item" href="{{ route('cards::postponeRepetition', [$card->id, 30]) }}">Repeat In a Month</a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="{{ route('cards::changeStatus', $card->id) }}">
-                                {{ ($card->status ? 'Disable' : 'Activate') }}
-                            </a>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                More
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item js-view-history" href="#" data-id="{{ $card->id }}">View History</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 1]) }}">Repeat Tomorrow</a>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 2]) }}">Repeat After 2 Days</a>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 3]) }}">Repeat After 3 Days</a>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 7]) }}">Repeat In a Week</a>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 14]) }}">Repeat After 2 Week</a>
+                                <a class="dropdown-item" href="{{ route('repetitions::postponeRepetition', [$card->id, 30]) }}">Repeat In a Month</a>
+                            </div>
                         </div>
-                    </div>
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            @endforeach
         @endforeach
     @empty
         <tr >

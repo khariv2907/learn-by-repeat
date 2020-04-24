@@ -21,6 +21,7 @@ return [
             'title' => 'three days',
             'act_title' => 'repeat after 3 days',
         ],
+
         7 => [
             'after_days' => 7,
             'title' => 'one week',
@@ -36,6 +37,7 @@ return [
             'title' => 'one month',
             'act_title' => 'repeat in a month',
         ],
+
         60 => [
             'after_days' => 60,
             'title' => 'two months',

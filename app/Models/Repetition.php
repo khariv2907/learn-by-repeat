@@ -13,6 +13,7 @@ use Carbon\Carbon;
  * @property int $card_id
  * @property int $iteration
  * @property int $status
+ * @property bool $is_postponement
  * @property Carbon $repeat_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -22,10 +23,13 @@ use Carbon\Carbon;
  */
 class Repetition extends BaseModel
 {
+    const STATUS_DONE = 2;
+    const STATUS_POSTPONED = 3;
+
     protected $table = 'repetitions';
 
     protected $fillable = [
-        'card_id', 'iteration', 'repeat_at', 'status'
+        'card_id', 'iteration', 'repeat_at', 'status', 'is_postponement'
     ];
 
     protected $dates = [
@@ -37,6 +41,7 @@ class Repetition extends BaseModel
         'iteration' => 'int',
         'repeat_at' => 'date',
         'status' => 'int',
+        'is_postponement' => 'bool',
     ];
 
     public function getRepeatAtAttribute($value)

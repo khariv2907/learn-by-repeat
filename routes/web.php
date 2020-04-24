@@ -8,6 +8,9 @@ Route::get('/', [
     'as' => 'home'
 ]);
 
+/**
+ * Decks
+ */
 Route::get('/decks', [
     'uses' => 'DeckController@decks',
     'as' => 'decks'
@@ -29,6 +32,10 @@ Route::post('/decks/create-form', [
     'as' => 'decks::store'
 ]);
 
+
+/**
+ * Cards
+ */
 Route::get('/cards/ajax-view-history', [
     'uses' => 'CardController@ajaxViewHistory',
 ]);
@@ -38,17 +45,21 @@ Route::get('/cards/change-status/{id}', [
     'as' => 'cards::changeStatus'
 ])->where('id', '[0-9]+');
 
-Route::get('/cards/done-repetition/{id}', [
-    'uses' => 'CardController@doneRepetition',
-    'as' => 'cards::doneRepetition'
+
+/**
+ * Repetition
+ */
+Route::get('/repetition/done-repetition/{id}', [
+    'uses' => 'RepetitionController@doneRepetition',
+    'as' => 'repetitions::doneRepetition'
 ])->where('id', '[0-9]+');
 
-Route::get('/cards/postpone-repetition/{id}/{days}', [
-    'uses' => 'CardController@postponeRepetition',
-    'as' => 'cards::postponeRepetition'
+Route::get('/repetition/postpone-repetition/{id}/{days}', [
+    'uses' => 'RepetitionController@postponeRepetition',
+    'as' => 'repetitions::postponeRepetition'
 ])->where(['id' => '[0-9]+', 'days' => '[0-9]+']);
 
-Route::get('/cards/close-day', [
-    'uses' => 'CardController@closeDay',
-    'as' => 'cards::closeDay'
+Route::get('/repetition/close-day', [
+    'uses' => 'RepetitionController@closeDay',
+    'as' => 'repetitions::closeDay'
 ]);

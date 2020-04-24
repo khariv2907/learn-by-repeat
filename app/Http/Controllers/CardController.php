@@ -26,27 +26,6 @@ class CardController extends Controller
         }
     }
 
-    public function doneRepetition(int $id)
-    {
-        try {
-            $this->cardService->doneRepetition($id);
-
-            return redirect()->route('home')->withSuccess('Repetition has done!');
-        } catch (\Exception $exception) {
-            return back()->withError($exception->getMessage());
-        }
-    }
-
-    public function postponeRepetition(int $id)
-    {
-
-    }
-
-    public function closeDay()
-    {
-
-    }
-
     public function ajaxViewHistory(Request $request)
     {
         $id = $request->get('id');

@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Deck $deck
  * @property Collection<Repetition> $repetitions
  * @property Repetition nearestRepetition
+ * @property Repetition lastDoneRepetition
+ * @property Repetition firstPostponeRepetition
  *
  * @package App
  */
@@ -48,7 +50,29 @@ class Card extends BaseModel
     public function nearestRepetition()
     {
         return $this->hasOne(Repetition::class)
-            ->where('status', static::STATUS_ACTIVE)
+            ->where('status', Repetition::STATUS_ACTIVE)
             ->orderBy('repeat_at');
+    }
+
+    public function lastRepetition()
+    {
+        return $this->hasOne(Repetition::class)
+            ->where('status', Repetition::STATUS_DONE)
+            ->orderByDesc('repeat_at');
+    }
+
+    public function lastDoneRepetition()
+    {
+        return $this->hasOne(Repetition::class)
+            ->where('status', Repetition::STATUS_DONE)
+            ->orderByDesc('repeat_at');
+    }
+
+    public function firstPostponeRepetition()
+    {
+        return $this->hasOne(Repetition::class)
+            ->where('status', Repetition::STATUS_POSTPONED)
+            ->where('is_postponement', false)
+            ->orderByDesc('repeat_at');
     }
 }
